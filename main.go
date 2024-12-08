@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -71,6 +72,7 @@ func toggleTodoStatus(context *gin.Context){
 
 func main() {
     router := gin.Default()
+    router.Use(cors.Default())
     router.GET("/todos", getTodos)
     router.GET("/todos/:id", getTodo)
     router.PATCH("/todos/:id", toggleTodoStatus)
