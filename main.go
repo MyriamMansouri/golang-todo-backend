@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"net/http"
+	"path/filepath"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -70,11 +71,18 @@ func toggleTodoStatus(context *gin.Context){
     context.IndentedJSON(http.StatusOK, todo)
 }
 
+func getAuthConfig(c *gin.Context) {
+    path := filepath.Join(".", "auth_config.json")
+    c.File(path)
+}
+
+
 func main() {
     router := gin.Default()
     router.Use(cors.Default())
     router.GET("/todos", getTodos)
     router.GET("/todos/:id", getTodo)
+    router.GET("/auth_config.json", getAuthConfig)
     router.PATCH("/todos/:id", toggleTodoStatus)
     router.POST("/todos", addTodo)
     router.Run("localhost:9090")
